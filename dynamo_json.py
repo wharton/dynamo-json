@@ -1,9 +1,14 @@
 import json
 
+EMPTY_STRING = ""
+EMPTY_STRING_PLACEHOLDER = "-"
 
 def _marshall(value):
     if isinstance(value, str):
-        return {"S": value}
+        if value == EMPTY_STRING:
+            return {"S": EMPTY_STRING_PLACEHOLDER}
+        else:
+            return {"S": value}
     elif isinstance(value, bool):
         return {"BOOL": value}
     elif isinstance(value, float) or isinstance(value, int):
@@ -41,4 +46,3 @@ def _unmarshall(value):
 
 def unmarshall(value):
     return {k: _unmarshall(v) for k, v in value.items()}
-
